@@ -1,6 +1,13 @@
 spring:
   application:
     name: crypto-exchange
+  datasource:
+    url: jdbc:h2:mem:crypto
+    username: sa
+    password: password
+    driverClassName: org.h2.Driver
+    jpa:
+      database-platform: org.hibernate.dialect.H2Dialect
 
 server:
   port: 8081
