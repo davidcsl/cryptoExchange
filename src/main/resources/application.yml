@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: crypto-exchange
+
+server:
+  port: 8081
