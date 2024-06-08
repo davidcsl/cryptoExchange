@@ -1,6 +1,9 @@
 package com.aquariux.crypto.endpoints;
 
+import com.aquariux.crypto.dto.response.PairDetails;
+import com.aquariux.crypto.service.CryptoService;
 import com.aquariux.crypto.service.PriceAggregators;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -18,15 +21,17 @@ import org.springframework.web.bind.annotation.RestController;
 public class CryptoEndpoints {
 
   private final PriceAggregators priceAggregators;
+  private final CryptoService cryptoService;
 
   /**
    * Extract crypto price rest endpoint.
    */
   @GetMapping("price")
-  public ResponseEntity getPrice() {
+  public ResponseEntity<List<PairDetails>> getPrice() {
 
     priceAggregators.extractPrice();
+    List<PairDetails> pricesResponse = cryptoService.getLatestPrice();
 
-    return ResponseEntity.ok("BTC: 70000 USDT, ETH: 3800 USDT");
+    return ResponseEntity.ok(pricesResponse);
   }
 }
