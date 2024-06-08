@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 /** Transaction Repository. */
 @Repository
 public interface TransactionRepository extends JpaRepository<TransactionEntity, String> {
+
+  TransactionEntity findFirstByOrderByTimestampDesc();
 }

@@ -42,7 +42,8 @@ public class CryptoEndpoints {
    * Perform buy or sell crypto base on latest aggregated price rest endpoint.
    */
   @PostMapping("transact")
-  public ResponseEntity transact(@RequestBody TransactionRequest transactionRequest) {
+  public ResponseEntity transact(@RequestBody TransactionRequest transactionRequest)
+          throws Exception {
 
     String response = cryptoService.transact(transactionRequest);
 
