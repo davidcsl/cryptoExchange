@@ -19,6 +19,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -40,6 +41,7 @@ public class PriceAggregators {
   private final PriceRepository priceRepository;
 
   /** Method to extract crypto prices from externals. */
+  @Scheduled(cron = "${app.schedule.call-price.cron}")
   public void extractPrice() {
 
     final HttpHeaders httpHeaders = new HttpHeaders();

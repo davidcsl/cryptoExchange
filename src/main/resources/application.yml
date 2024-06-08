@@ -15,5 +15,10 @@ rest:
     binance: https://api.binance.com/api/v3/ticker/bookTicker
     huobi: https://api.huobi.pro/market/tickers
 
+app:
+  schedule:
+    call-price:
+      cron: "*/5 * * * * *"
+
 server:
   port: 8081
