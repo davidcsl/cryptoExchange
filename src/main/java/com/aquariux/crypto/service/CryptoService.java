@@ -1,5 +1,6 @@
 package com.aquariux.crypto.service;
 
+import com.aquariux.crypto.dto.request.TransactionRequest;
 import com.aquariux.crypto.dto.response.PairDetails;
 import com.aquariux.crypto.entity.PriceEntity;
 import com.aquariux.crypto.repository.PriceRepository;
@@ -38,5 +39,12 @@ public class CryptoService {
             }).toList();
 
     return pricesResponse;
+  }
+
+  /**
+   * Method to perform crypto transaction base on latest best aggregated price.
+   */
+  public String transact(TransactionRequest request) {
+    return "";
   }
 }
