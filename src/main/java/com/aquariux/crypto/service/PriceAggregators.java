@@ -2,12 +2,15 @@ package com.aquariux.crypto.service;
 
 import com.aquariux.crypto.dto.response.PairDetails;
 import com.aquariux.crypto.dto.response.PairResult;
-import java.util.ArrayList;
+import com.aquariux.crypto.entity.PriceEntity;
+import com.aquariux.crypto.repository.PriceRepository;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
@@ -24,6 +27,7 @@ import org.springframework.web.client.RestTemplate;
  */
 @Component
 @Slf4j
+@RequiredArgsConstructor
 public class PriceAggregators {
 
   @Value("${rest.baseuri.binance}")
@@ -33,9 +37,10 @@ public class PriceAggregators {
   private String huobiUri;
 
   private final RestTemplate restTemplate = new RestTemplate();
+  private final PriceRepository priceRepository;
 
   /** Method to extract crypto prices from externals. */
-  public List<PairDetails> extractPrice() {
+  public void extractPrice() {
 
     final HttpHeaders httpHeaders = new HttpHeaders();
     httpHeaders.setContentType(MediaType.APPLICATION_JSON);
@@ -77,14 +82,47 @@ public class PriceAggregators {
 
 
 
-    double binanceAsk = Optional.ofNullable(pairDetailsFromBinance.get("BTCUSDT"))
-            .map(pairDetails -> Double.parseDouble(pairDetails.getAsk()))
-            .orElse(0.00);
 
-    double huobiAsk = Optional.ofNullable(pairDetailsFromHuobi.get("BTCUSDT"))
-            .map(pairDetails -> Double.parseDouble(pairDetails.getAsk()))
-            .orElse(0.00);
+    String symbol = "BTCUSDT";
+    PriceEntity priceEntity = new PriceEntity();
+    priceEntity.setSymbol(symbol);
 
-    return new ArrayList<>();
+    float binanceAsk = Optional.ofNullable(pairDetailsFromBinance.get(symbol))
+            .map(pairDetails -> Float.parseFloat(pairDetails.getAsk()))
+            .orElse(Float.MAX_VALUE);
+    float huobiAsk = Optional.ofNullable(pairDetailsFromHuobi.get(symbol))
+            .map(pairDetails -> Float.parseFloat(pairDetails.getAsk()))
+            .orElse(Float.MAX_VALUE);
+    if (binanceAsk != Float.MAX_VALUE && huobiAsk != Float.MAX_VALUE) {
+      priceEntity.setAsk(Math.min(binanceAsk, huobiAsk));
+    }
+
+    float binanceBid = Optional.ofNullable(pairDetailsFromBinance.get(symbol))
+            .map(pairDetails -> Float.parseFloat(pairDetails.getBid()))
+            .orElse(0f);
+    float huobiBid = Optional.ofNullable(pairDetailsFromHuobi.get(symbol))
+            .map(pairDetails -> Float.parseFloat(pairDetails.getBid()))
+            .orElse(0f);
+    if (binanceBid != 0f && huobiBid != 0f) {
+      priceEntity.setBid(Math.max(binanceBid, huobiBid));
+    }
+
+    if (Objects.nonNull(priceEntity.getBid())
+            && Objects.nonNull(priceEntity.getAsk())
+            && priceEntity.getBid() > priceEntity.getAsk()) {
+      float binanceSpread = binanceAsk - binanceBid;
+      float huobiSpread = huobiAsk - huobiBid;
+      if (binanceSpread < huobiSpread) {
+        priceEntity.setAsk(binanceAsk);
+        priceEntity.setBid(binanceBid);
+      } else {
+        priceEntity.setAsk(huobiAsk);
+        priceEntity.setBid(huobiBid);
+      }
+    }
+
+    priceRepository.saveAndFlush(priceEntity);
+
+    log.info("Stored price: " + priceEntity);
   }
 }
