@@ -82,10 +82,15 @@ public class PriceAggregators {
 
     log.info("Extracted price from {}: {}", "Huobi", pairDetailsFromHuobi);
 
+    storingBestPrice(pairDetailsFromBinance, pairDetailsFromHuobi, priceRepository, "BTCUSDT");
+    storingBestPrice(pairDetailsFromBinance, pairDetailsFromHuobi, priceRepository, "ETHUSDT");
+  }
 
-
-
-    String symbol = "BTCUSDT";
+  /** Private method to process and store best prices from the external raw prices. */
+  private void storingBestPrice(Map<String, PairDetails> pairDetailsFromBinance,
+                                Map<String, PairDetails> pairDetailsFromHuobi,
+                                PriceRepository priceRepository,
+                                String symbol) {
     PriceEntity priceEntity = new PriceEntity();
     priceEntity.setSymbol(symbol);
 
@@ -122,9 +127,8 @@ public class PriceAggregators {
         priceEntity.setBid(huobiBid);
       }
     }
-
     priceRepository.saveAndFlush(priceEntity);
-
     log.info("Stored price: " + priceEntity);
+
   }
 }
