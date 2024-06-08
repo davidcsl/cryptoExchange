@@ -152,7 +152,7 @@ public class CryptoService {
                   newTransaction.setUsdtBalance(newUsdtBalance);
                   newTransaction.setPair(request.getPair());
                   newTransaction.setUnit(request.getUnit());
-                  newTransaction.setPrice(priceEntity.getAsk());
+                  newTransaction.setPrice(priceEntity.getBid());
                   newTransaction.setTimestamp(LocalDateTime.now());
                   newTransaction.setAction(request.getAction());
                   newTransaction.setTransactionId(String.valueOf(UUID.randomUUID()));
