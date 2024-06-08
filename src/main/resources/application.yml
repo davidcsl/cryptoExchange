@@ -7,7 +7,11 @@ spring:
     password: password
     driverClassName: org.h2.Driver
     jpa:
-      database-platform: org.hibernate.dialect.H2Dialect
+
+rest:
+  baseuri:
+    binance: https://api.binance.com/api/v3/ticker/bookTicker
+    huobi: https://api.huobi.pro/market/tickers
 
 server:
   port: 8081
