@@ -51,10 +51,10 @@ public class CryptoEndpoints {
   /**
    * Retrieve crypto wallet balance rest endpoint.
    */
-  @GetMapping("balance")
-  public ResponseEntity balance() {
+  @GetMapping("balance/{userId}")
+  public ResponseEntity balance(@PathVariable String userId) {
 
-    WalletResponse walletResponse = cryptoService.getBalance();
+    WalletResponse walletResponse = cryptoService.getBalance(userId);
 
     return ResponseEntity.ok(walletResponse);
   }

@@ -69,7 +69,8 @@ public class CryptoService {
       throw new Exception("Invalid transaction request: Invalid pair detected");
     }
 
-    TransactionEntity latestTransaction = transactionRepository.findFirstByOrderByTimestampDesc();
+    TransactionEntity latestTransaction =
+            transactionRepository.findFirstByOrderByTimestampDesc(request.getUserId());
     log.info("Latest transaction is: " + latestTransaction);
 
     if (Objects.isNull(latestTransaction)) {
@@ -175,9 +176,10 @@ public class CryptoService {
   /**
    * Method to retrieve user's cryptocurrency balance.
    */
-  public WalletResponse getBalance() {
+  public WalletResponse getBalance(String userId) {
 
-    TransactionEntity latestTransaction = transactionRepository.findFirstByOrderByTimestampDesc();
+    TransactionEntity latestTransaction =
+            transactionRepository.findFirstByOrderByTimestampDesc(userId);
 
     WalletResponse walletResponse = new WalletResponse(
             latestTransaction.getUserId(),
