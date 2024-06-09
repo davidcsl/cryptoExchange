@@ -21,7 +21,7 @@ public class PriceInitializer {
       priceAggregators.extractPrice();
     } catch (Exception e) {
       log.error("Unable to load crypto price on server startup.");
-      log.error(e.getCause().getMessage());
+      log.error(e.getMessage());
     }
   }
 }
