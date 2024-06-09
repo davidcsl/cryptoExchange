@@ -21,7 +21,7 @@ rest:
 app:
   schedule:
     call-price:
-      cron: "*/5 * * * * *"
+      cron: "0 */10 * * * *"
 
 server:
   port: 8081

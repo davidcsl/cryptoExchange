@@ -5,7 +5,6 @@ import com.aquariux.crypto.dto.response.HistoryResponse;
 import com.aquariux.crypto.dto.response.PairDetails;
 import com.aquariux.crypto.dto.response.WalletResponse;
 import com.aquariux.crypto.service.CryptoService;
-import com.aquariux.crypto.service.PriceAggregators;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,8 +24,6 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @AllArgsConstructor
 public class CryptoEndpoints {
-
-  private final PriceAggregators priceAggregators;
   private final CryptoService cryptoService;
 
   /**
@@ -34,8 +31,6 @@ public class CryptoEndpoints {
    */
   @GetMapping("price")
   public ResponseEntity<List<PairDetails>> getPrice() {
-
-    priceAggregators.extractPrice();
     List<PairDetails> pricesResponse = cryptoService.getLatestPrice();
 
     return ResponseEntity.ok(pricesResponse);

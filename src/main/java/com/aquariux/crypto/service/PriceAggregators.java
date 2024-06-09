@@ -128,7 +128,7 @@ public class PriceAggregators {
       }
     }
     priceRepository.saveAndFlush(priceEntity);
-    log.info("Stored price: " + priceEntity);
+    log.info("Stored best price: " + priceEntity);
 
   }
 }
