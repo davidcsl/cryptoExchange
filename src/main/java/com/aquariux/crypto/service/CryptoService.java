@@ -74,7 +74,8 @@ public class CryptoService {
     log.info("Latest transaction is: " + latestTransaction);
 
     if (Objects.isNull(latestTransaction)) {
-      throw new Exception("No previous transaction available for current user.");
+      throw new Exception(
+              "No previous transaction available for this user: " + request.getUserId());
     }
 
     TransactionEntity newTransaction = new TransactionEntity();
@@ -181,6 +182,10 @@ public class CryptoService {
     TransactionEntity latestTransaction =
             transactionRepository.findFirstByOrderByTimestampDesc(userId);
 
+    if (Objects.isNull(latestTransaction)) {
+      throw new RuntimeException("The requested userId not found: " + userId);
+    }
+
     WalletResponse walletResponse = new WalletResponse(
             latestTransaction.getUserId(),
             latestTransaction.getBtcBalance(),
@@ -197,6 +202,10 @@ public class CryptoService {
 
     List<TransactionEntity> transactionEntities =
             transactionRepository.findAllByUserId(userId);
+
+    if (transactionEntities.isEmpty()) {
+      throw new RuntimeException("No history records for user: " + userId);
+    }
 
     List<HistoryResponse> historyResponseList =  transactionEntities.stream()
             .map(transactionEntity ->
