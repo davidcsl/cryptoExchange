@@ -30,10 +30,14 @@ public class CryptoEndpoints {
    * Extract crypto price rest endpoint.
    */
   @GetMapping("price")
-  public ResponseEntity<List<PairDetails>> getPrice() {
-    List<PairDetails> pricesResponse = cryptoService.getLatestPrice();
+  public ResponseEntity getPrice() {
+    try {
+      List<PairDetails> pricesResponse = cryptoService.getLatestPrice();
 
-    return ResponseEntity.ok(pricesResponse);
+      return ResponseEntity.ok(pricesResponse);
+    } catch (Exception e) {
+      return ResponseEntity.status(500).body(e.getMessage());
+    }
   }
 
   /**
@@ -43,9 +47,13 @@ public class CryptoEndpoints {
   public ResponseEntity transact(@RequestBody TransactionRequest transactionRequest)
           throws Exception {
 
-    String response = cryptoService.transact(transactionRequest);
+    try {
+      String response = cryptoService.transact(transactionRequest);
 
-    return ResponseEntity.ok(response);
+      return ResponseEntity.ok(response);
+    } catch (Exception e) {
+      return ResponseEntity.status(500).body(e.getMessage());
+    }
   }
 
   /**
@@ -54,9 +62,13 @@ public class CryptoEndpoints {
   @GetMapping("balance/{userId}")
   public ResponseEntity balance(@PathVariable String userId) {
 
-    WalletResponse walletResponse = cryptoService.getBalance(userId);
+    try {
+      WalletResponse walletResponse = cryptoService.getBalance(userId);
 
-    return ResponseEntity.ok(walletResponse);
+      return ResponseEntity.ok(walletResponse);
+    } catch (Exception e) {
+      return ResponseEntity.status(500).body(e.getMessage());
+    }
   }
 
   /**
@@ -65,8 +77,12 @@ public class CryptoEndpoints {
   @GetMapping("history/{userId}")
   public ResponseEntity history(@PathVariable String userId) {
 
-    List<HistoryResponse> historyResponseList = cryptoService.getHistory(userId);
+    try {
+      List<HistoryResponse> historyResponseList = cryptoService.getHistory(userId);
 
-    return ResponseEntity.ok(historyResponseList);
+      return ResponseEntity.ok(historyResponseList);
+    } catch (Exception e) {
+      return ResponseEntity.status(500).body(e.getMessage());
+    }
   }
 }
