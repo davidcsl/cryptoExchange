@@ -2,6 +2,7 @@ package com.aquariux.crypto.service;
 
 import com.aquariux.crypto.dto.request.TransactionRequest;
 import com.aquariux.crypto.dto.response.PairDetails;
+import com.aquariux.crypto.dto.response.WalletResponse;
 import com.aquariux.crypto.entity.PriceEntity;
 import com.aquariux.crypto.entity.TransactionEntity;
 import com.aquariux.crypto.repository.PriceRepository;
@@ -169,5 +170,23 @@ public class CryptoService {
     }
     return "DONE";
   }
+
+  /**
+   * Method to retrieve user's cryptocurrency balance.
+   */
+  public WalletResponse getBalance() {
+
+    TransactionEntity latestTransaction = transactionRepository.findFirstByOrderByTimestampDesc();
+
+    WalletResponse walletResponse = new WalletResponse(
+            latestTransaction.getUserId(),
+            latestTransaction.getBtcBalance(),
+            latestTransaction.getEthBalance(),
+            latestTransaction.getUsdtBalance());
+
+    return walletResponse;
+  }
+
+
 }
 

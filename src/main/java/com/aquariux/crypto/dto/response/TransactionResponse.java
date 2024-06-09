@@ -7,7 +7,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- * Crypto Transaction Resposne object.
+ * Crypto Transaction Response object.
  */
 @ToString
 @Getter

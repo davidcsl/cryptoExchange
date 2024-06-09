@@ -2,6 +2,7 @@ package com.aquariux.crypto.endpoints;
 
 import com.aquariux.crypto.dto.request.TransactionRequest;
 import com.aquariux.crypto.dto.response.PairDetails;
+import com.aquariux.crypto.dto.response.WalletResponse;
 import com.aquariux.crypto.service.CryptoService;
 import com.aquariux.crypto.service.PriceAggregators;
 import java.util.List;
@@ -48,5 +49,16 @@ public class CryptoEndpoints {
     String response = cryptoService.transact(transactionRequest);
 
     return ResponseEntity.ok(response);
+  }
+
+  /**
+   * Retrieve crypto wallet balance rest endpoint.
+   */
+  @GetMapping("balance")
+  public ResponseEntity balance() {
+
+    WalletResponse walletResponse = cryptoService.getBalance();
+
+    return ResponseEntity.ok(walletResponse);
   }
 }
