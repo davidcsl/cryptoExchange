@@ -1,0 +1,140 @@
+{
+	"info": {
+		"_postman_id": "73bd15e8-65b7-45e2-a091-e21867d94d9a",
+		"name": "CryptoExchange",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24305772"
+	},
+	"item": [
+		{
+			"name": "BinancePrice",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.binance.com/api/v3/ticker/bookTicker",
+					"protocol": "https",
+					"host": [
+						"api",
+						"binance",
+						"com"
+					],
+					"path": [
+						"api",
+						"v3",
+						"ticker",
+						"bookTicker"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "HuobiPrice",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.huobi.pro/market/tickers",
+					"protocol": "https",
+					"host": [
+						"api",
+						"huobi",
+						"pro"
+					],
+					"path": [
+						"market",
+						"tickers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "price",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8081/price",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"price"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "transact",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\" : \"ABCD\",\r\n    \"action\" : \"BUY\",\r\n    \"pair\" : \"ETHUSDT\",\r\n    \"unit\": 10\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/transact",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"transact"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "balance",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8081/balance",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"balance"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "history",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8081/history/ABCD",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"history",
+						"ABCD"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
