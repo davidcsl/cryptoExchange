@@ -30,9 +30,13 @@ public class CryptoService {
   /**
    * Method to retrieve latest best aggregated price.
    */
-  public List<PairDetails> getLatestPrice() {
+  public List<PairDetails> getLatestPrice() throws Exception {
 
     List<PriceEntity> priceEntities = priceRepository.findAll();
+
+    if (priceEntities.isEmpty()) {
+      throw new Exception("Crypto price info not found.");
+    }
 
     List<PairDetails> pricesResponse = priceEntities.stream()
             .map(priceEntity -> {
@@ -61,7 +65,8 @@ public class CryptoService {
 
     if (Objects.isNull(action)
             || Objects.isNull(request.getPair())
-            || Objects.isNull(request.getUnit())) {
+            || Objects.isNull(request.getUnit())
+            || Objects.isNull(request.getUserId())) {
       throw new Exception("Invalid transaction request: Null request detected.");
     }
 
@@ -171,7 +176,7 @@ public class CryptoService {
     if (!isPairExist.get()) {
       throw new RuntimeException("Transaction Request Pair Price not exist.");
     }
-    return "DONE";
+    return "Transaction request filled !";
   }
 
   /**
