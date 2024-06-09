@@ -1,6 +1,7 @@
 package com.aquariux.crypto.service;
 
 import com.aquariux.crypto.dto.request.TransactionRequest;
+import com.aquariux.crypto.dto.response.HistoryResponse;
 import com.aquariux.crypto.dto.response.PairDetails;
 import com.aquariux.crypto.dto.response.WalletResponse;
 import com.aquariux.crypto.entity.PriceEntity;
@@ -185,6 +186,33 @@ public class CryptoService {
             latestTransaction.getUsdtBalance());
 
     return walletResponse;
+  }
+
+  /**
+   * Method to retrieve user's all time cryptocurrency trading history.
+   */
+  public List<HistoryResponse> getHistory(String userId) {
+
+    List<TransactionEntity> transactionEntities =
+            transactionRepository.findAllByUserId(userId);
+
+    List<HistoryResponse> historyResponseList =  transactionEntities.stream()
+            .map(transactionEntity ->
+                    new HistoryResponse(
+                            transactionEntity.getUserId(),
+                            transactionEntity.getPair(),
+                            transactionEntity.getAction(),
+                            transactionEntity.getPrice(),
+                            transactionEntity.getUnit(),
+                            transactionEntity.getStatus(),
+                            transactionEntity.getBtcBalance(),
+                            transactionEntity.getEthBalance(),
+                            transactionEntity.getUsdtBalance(),
+                            transactionEntity.getTransactionId(),
+                            transactionEntity.getTimestamp()))
+            .toList();
+
+    return historyResponseList;
   }
 
 
