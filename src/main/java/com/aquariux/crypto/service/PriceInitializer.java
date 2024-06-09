@@ -17,6 +17,11 @@ public class PriceInitializer {
   @Autowired
   public PriceInitializer(PriceAggregators priceAggregators) {
     log.info("Initialize crypto Price upon machine startup.");
-    priceAggregators.extractPrice();
+    try {
+      priceAggregators.extractPrice();
+    } catch (Exception e) {
+      log.error("Unable to load crypto price on server startup.");
+      log.error(e.getCause().getMessage());
+    }
   }
 }

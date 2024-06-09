@@ -36,6 +36,7 @@ public class CryptoEndpoints {
 
       return ResponseEntity.ok(pricesResponse);
     } catch (Exception e) {
+      log.error(e.getMessage());
       return ResponseEntity.status(500).body(e.getMessage());
     }
   }
@@ -52,6 +53,7 @@ public class CryptoEndpoints {
 
       return ResponseEntity.ok(response);
     } catch (Exception e) {
+      log.error(e.getMessage());
       return ResponseEntity.status(500).body(e.getMessage());
     }
   }
@@ -67,6 +69,7 @@ public class CryptoEndpoints {
 
       return ResponseEntity.ok(walletResponse);
     } catch (Exception e) {
+      log.error(e.getMessage());
       return ResponseEntity.status(500).body(e.getMessage());
     }
   }
@@ -82,6 +85,7 @@ public class CryptoEndpoints {
 
       return ResponseEntity.ok(historyResponseList);
     } catch (Exception e) {
+      log.error(e.getMessage());
       return ResponseEntity.status(500).body(e.getMessage());
     }
   }

@@ -51,6 +51,8 @@ public class CryptoService {
               return pairDetails;
             }).toList();
 
+    log.info("Retrieving latest stored crypto price info: " + pricesResponse);
+
     return pricesResponse;
   }
 
@@ -76,7 +78,7 @@ public class CryptoService {
 
     TransactionEntity latestTransaction =
             transactionRepository.findFirstByOrderByTimestampDesc(request.getUserId());
-    log.info("Latest transaction is: " + latestTransaction);
+    log.info("Previous transaction is: " + latestTransaction);
 
     if (Objects.isNull(latestTransaction)) {
       throw new Exception(
@@ -197,6 +199,8 @@ public class CryptoService {
             latestTransaction.getEthBalance(),
             latestTransaction.getUsdtBalance());
 
+    log.info("Retrieving wallet balance of userId [{}] : {}", userId, walletResponse);
+
     return walletResponse;
   }
 
@@ -227,6 +231,8 @@ public class CryptoService {
                             transactionEntity.getTransactionId(),
                             transactionEntity.getTimestamp()))
             .toList();
+
+    log.info("Successfully retrieved user [{}] transaction history.", userId);
 
     return historyResponseList;
   }
